@@ -1,0 +1,19 @@
+---
+- name: /etc/motd 파일 삭제
+  hosts: all
+  gather_facts: yes
+  tasks:
+  - name: /etc/motd 파일 삭제하기
+    file:
+     path: /etc/motd
+     state: absent
+
+  - name: /etc/motd 빈 파일 생성하기
+    file:
+      path: /etc/motd
+      state: touch
+  
+  # 멱등성을 제공하지 않기 때문에 사용하는건 권장 안함
+  # - name: /etc/motd 빈 파일 만들기
+  #   shell:
+  #     cmd: '> /etc/motd'

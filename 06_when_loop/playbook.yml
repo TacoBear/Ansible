@@ -1,0 +1,19 @@
+- name: DB 패키지 설치
+  hosts: database_prod
+  tasks:
+  - name: 패키지 설치
+    yum:
+      name: "{{ pkg_db }}"
+      state: latest
+    vars:
+      pkg_db:
+      - mariadb-server
+      - python3-PyMySQL
+    when: ansible_distribution == 'CentOS'
+
+
+  - name: 서비스 기능
+    service:
+      name: mariadb
+      state: started
+      enabled: yes

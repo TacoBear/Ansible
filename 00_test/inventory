@@ -1,0 +1,10 @@
+web1.example.com ansible_ssh_host=192.168.10.11
+web2.example.com ansible_ssh_host=192.168.10.12
+web3.example.com ansible_ssh_host=192.168.10.13
+web4.example.com ansible_ssh_host=192.168.10.14
+
+[myhosts]
+web1
+web2
+web3
+web4

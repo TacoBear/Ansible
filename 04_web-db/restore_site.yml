@@ -1,0 +1,54 @@
+---
+# 1) 방화벽 서비스 OFF- http, https, mysql => firewalld
+# 2) 서비스 disable - httpd, mriadb => service
+# 3) 서비스 디렉토리 삭제 - /var/www/html => service
+# 4) 패키지 삭제 - ..... => yum|dnf
+  - name: 복원작원
+    hosts: webservers
+    tasks:
+      - name: 1) 방화벽 서비스 OFF- http, https, mysql => firewalld
+        firewalld:
+          service: http
+          permanent: yes
+          immediate: yes
+          state: disabled
+      
+      - name: 1) 방화벽 서비스 OFF- http, https, mysql => firewalld (https)
+        firewalld:
+          service: https
+          permanent: yes
+          immediate: yes
+          state: disabled
+        loop:
+          - http
+          - https
+        ignore_errors: yes
+      - name: 2) 서비스 disable - httpd, mriadb => service
+        service:
+          name: httpd
+          state: stopped
+          enabled: no
+      - name: 2) 서비스 disable - httpd, mriadb => service (mariadb)
+        service:
+          name: httpd
+          state: stopped
+          enabled: no
+      - name: 3) 서비스 디렉토리 삭제 - /var/www/html => service
+        file:
+          path: /var/www/html/index.html
+          state: absent
+      - name: 4) 패키지 삭제 - ..... => yum|dnf
+        yum:
+          name:
+            - httpd
+            - mod_ssl
+            - php
+            - php-mysqlnd
+            - php-pdo
+            - mariadb-server
+            - mariadb
+            - python3-pip
+          state: absent
+
+
+
